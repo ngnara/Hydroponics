@@ -1,6 +1,6 @@
 import serial;
 
-s = serial.Serial("COM3", 9600)
+s = serial.Serial("/dev/ttyUSB0", 9600)
 print(s.name)
 
 while True:
