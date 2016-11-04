@@ -1,6 +1,6 @@
 #include <ArduinoJson.h>
 
-void serialInit()
+void initSerial()
 {
   pinMode(LED_BUILTIN, OUTPUT);
   Serial.begin(9600);
@@ -11,14 +11,14 @@ void serialInit()
   }
   digitalWrite(LED_BUILTIN, LOW);
 
-  //접속 상태 점검
-  Serial.print('C');
+  //접속 상태 대기
   while(1) {
+    digitalWrite(LED_BUILTIN, HIGH);
+    Serial.print('C');
+    delay(1000);
     if (Serial.available() > 0) {
       char Byte = Serial.read();
-      if( Byte == 'R' )
-      {
-        digitalWrite(LED_BUILTIN, HIGH);
+      if( Byte == 'R' ) {
         Serial.print('R');
         break;
       }
@@ -27,18 +27,18 @@ void serialInit()
   digitalWrite(LED_BUILTIN, LOW);
 }
 
+void serialEvent() {
+  if (Serial.available() > 0) {
+    String readedBuffer = "";
+    digitalWrite(LED_BUILTIN, HIGH);
+    readedBuffer = Serial.readString();
+    Serial.println(readedBuffer);
+  }
+  digitalWrite(LED_BUILTIN, LOW);
+}
+
 void setup() {
-  serialInit();
-
-  DynamicJsonBuffer jsonBuffer;
-  JsonObject& object = jsonBuffer.createObject();
-
-  object["name"] = "test";
-  object["test"] = "it's test";
-  object["value"] = 10;
-
-  object.printTo(Serial);
-  Serial.print('\n');
+  initSerial();
 }
 
 void loop() {
