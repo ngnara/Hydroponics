@@ -1,5 +1,8 @@
 #include <ArduinoJson.h>
 
+int DelayInterval = 10000;
+
+//시리얼 초기화 및 서버 연결 상태 점검 
 void initSerial()
 {
   pinMode(LED_BUILTIN, OUTPUT);
@@ -11,7 +14,7 @@ void initSerial()
   }
   digitalWrite(LED_BUILTIN, LOW);
 
-  //접속 상태 대기
+  //접속 상태 확인
   while(1) {
     digitalWrite(LED_BUILTIN, HIGH);
     Serial.print('C');
@@ -27,14 +30,32 @@ void initSerial()
   digitalWrite(LED_BUILTIN, LOW);
 }
 
+// 센서 값을 Json으로 변경
+JsonObject &toJson(float temp, float humid, int light) {
+  DynamicJsonBuffer jsonBuffer;
+  JsonObject &jsonObj = jsonBuffer.createObject();
+ 
+  jsonObj["Temp"] = temp;
+  jsonObj["Humid"] = humid;
+  jsonObj["Light"] = light;
+
+  return jsonObj;
+}
+
+// 시리얼 수신 시 발생
 void serialEvent() {
   if (Serial.available() > 0) {
-    String readedBuffer = "";
-    digitalWrite(LED_BUILTIN, HIGH);
-    readedBuffer = Serial.readString();
-    Serial.println(readedBuffer);
+    String readBuffer = Serial.readString();
+    DynamicJsonBuffer jsonBuffer;
+    JsonObject &jsonObj = jsonBuffer.parseObject(readBuffer);
+    
+    String Command = jsonObj["Comm"];
+    //딜레이 간격 조절
+    if (Command == "setInterval") {
+      DelayInterval = jsonObj["Interval"];
+      Serial.print('R');
+    }
   }
-  digitalWrite(LED_BUILTIN, LOW);
 }
 
 void setup() {
@@ -42,5 +63,7 @@ void setup() {
 }
 
 void loop() {
-
+  toJson(45.0, 26.0, 1000).printTo(Serial);
+  Serial.println("");
+  delay(DelayInterval);
 }
