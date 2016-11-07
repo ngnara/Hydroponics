@@ -76,7 +76,7 @@ WSGI_APPLICATION = 'gui.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'mysql',
+        'NAME': 'website',
         'USER': 'toy0605',
         'PASSWORD' : 'waterdb!@#',
         'HOST' : 'localhost',
