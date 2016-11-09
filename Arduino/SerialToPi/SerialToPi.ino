@@ -1,11 +1,12 @@
 #include <DHT.h>
 #include <ArduinoJson.h>
 
-#define DHTPIN 2
-#define DHTTYPE DHT22
+#define DHT_PIN 2
+#define DHT_TYPE DHT22
+#define LIGHT_PIN A0;
 
 int DelayInterval = 10000;
-DHT dht(DHTPIN, DHTTYPE);
+DHT dht(DHT_PIN, DHT_TYPE);
 
 //시리얼 초기화 및 서버 연결 상태 점검 
 void initSerial()
@@ -71,8 +72,9 @@ void setup() {
 void loop() {
   float tmp = dht.readTemperature();
   float hum = dht.readHumidity();
+  int light = analogRead(LIGHT_PIN);
   
-  toJson(tmp, hum, 1000).printTo(Serial);
+  toJson(tmp, hum, light).printTo(Serial);
   Serial.println("");
   delay(DelayInterval);
 }
