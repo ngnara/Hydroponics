@@ -1,6 +1,11 @@
+#include <DHT.h>
 #include <ArduinoJson.h>
 
+#define DHTPIN 2
+#define DHTTYPE DHT22
+
 int DelayInterval = 10000;
+DHT dht(DHTPIN, DHTTYPE);
 
 //시리얼 초기화 및 서버 연결 상태 점검 
 void initSerial()
@@ -60,10 +65,14 @@ void serialEvent() {
 
 void setup() {
   initSerial();
+  dht.begin();
 }
 
 void loop() {
-  toJson(45.0, 26.0, 1000).printTo(Serial);
+  float tmp = dht.readTemperature();
+  float hum = dht.readHumidity();
+  
+  toJson(tmp, hum, 1000).printTo(Serial);
   Serial.println("");
   delay(DelayInterval);
 }

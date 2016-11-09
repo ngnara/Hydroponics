@@ -1,7 +1,7 @@
 import serial
 import json;
 
-with serial.Serial("/dev/ttyACM1", 9600) as s :
+with serial.Serial("/dev/ttyACM0", 9600) as s :
     #s = serial.Serial("/dev/ttyACM0", 9600)
     print("Port name : " + s.name)
 
