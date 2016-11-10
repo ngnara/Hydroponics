@@ -46,7 +46,7 @@ while True:
 
         while True:
             data = s.readline()
-            jsonData = json.loads(data)
+            jsonData = json.loads(data.encode("utf-8"))
             print(jsonData)
 
             log = SensorLog.objects.create(temp=jsonData['Temp'], humid=jsonData['Humid'], light=jsonData['Light'], ph=jsonData['pH'])
