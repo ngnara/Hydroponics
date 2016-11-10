@@ -23,20 +23,20 @@ while True:
     else:
         port = "/dev/ttyACM" + str(i)
 
-    try:
-        with serial.Serial(port, 9600) as s:
-            print("현재 포트는" + s.name)
-            handshakeSerial(s)
+    # try:
+    with serial.Serial(port, 9600) as s:
+        print("현재 포트는" + s.name)
+        handshakeSerial(s)
 
-            while True:
-                data = s.readline()
-                jsonData = json.loads(data)
-                print(jsonData)
+        while True:
+            data = s.readline()
+            jsonData = json.loads(data)
+            print(jsonData)
 
-                log = SensorLog.objects.create(temp=jsonData['Temp'], humid=jsonData['Humid'], light=jsonData['Light'], ph=jsonData['pH'])
-    except:
-        print(port + "포트는 실패하였습니다. 다시 검색합니다.")
-        i = i+1
+            log = SensorLog.objects.create(temp=jsonData['Temp'], humid=jsonData['Humid'], light=jsonData['Light'], ph=jsonData['pH'])
+    # except:
+    #     print(port + "포트는 실패하였습니다. 다시 검색합니다.")
+    #     i = i+1
 
 
 def handshakeSerial(s):
