@@ -3,6 +3,8 @@ import json
 import os
 import sys
 import platform
+import pymysql
+pymysql.install_as_MySQLdb()
 
 #외부에서 장고 프레임워크 불러오기
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "gui.settings")
