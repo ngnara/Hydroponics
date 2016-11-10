@@ -14,6 +14,22 @@ django.setup()
 
 from hydro.models import SensorLog
 
+def handshakeSerial(s):
+    while True:
+        data = s.read()
+        if data == b'C' :
+            print("아두이노에서 확인 바이트를 보냈습니다.")
+            break
+
+    s.write(b'R')
+    print("아두이노에게 응답 바이트를 보냈습니다.")
+
+    while True:
+            data = s.read()
+            if data == b'R' :
+                print("아두이노가 응답 바이트를 받았다고 보냈습니다.")
+                break
+
 i = 0
 while True:
     #운영체제별 포트 결정
@@ -37,20 +53,3 @@ while True:
     # except:
     #     print(port + "포트는 실패하였습니다. 다시 검색합니다.")
     #     i = i+1
-
-
-def handshakeSerial(s):
-    while True:
-        data = s.read()
-        if data == b'C' :
-            print("아두이노에서 확인 바이트를 보냈습니다.")
-            break
-
-    s.write(b'R')
-    print("아두이노에게 응답 바이트를 보냈습니다.")
-
-    while True:
-            data = s.read()
-            if data == b'R' :
-                print("아두이노가 응답 바이트를 받았다고 보냈습니다.")
-                break
