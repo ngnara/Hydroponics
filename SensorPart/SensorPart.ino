@@ -131,7 +131,8 @@ void loop() {
   int light = analogRead(LIGHT_PIN);
   float ph = readpH();
   
-  toJson(tmp, hum, light, ph).printTo(Serial);
+  //toJson(tmp, hum, light, ph).printTo(Serial);
+  toJson(20.0, 40.0, 1000, 7.0).printTo(Serial);
   Serial.println("");
   delay(DelayInterval);
 }
