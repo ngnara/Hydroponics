@@ -18,7 +18,7 @@ def handshakeSerial(s):
     while True:
         data = s.read()
         if data == b'C' :
-            print("아두이노에서 확인 바이트를 보냈습니다.")
+            print("아두이노에서 확인 바이트를 받았습니다.")
             break
 
     s.write(b'R')
