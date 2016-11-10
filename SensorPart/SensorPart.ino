@@ -2,7 +2,7 @@
 #include <ArduinoJson.h>
 
 #define DHT_PIN 2
-#define DHT_TYPE DHT22
+#define DHT_TYPE DHT11
 #define LIGHT_PIN A0
 #define PH_METER_PIN A1
 #define PH_ARRAY_LENGTH 40
