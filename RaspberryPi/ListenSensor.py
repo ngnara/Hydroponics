@@ -25,10 +25,10 @@ def handshakeSerial(s):
     print("아두이노에게 응답 바이트를 보냈습니다.")
 
     while True:
-            data = s.read()
-            if data == b'R' :
-                print("아두이노가 응답 바이트를 받았다고 보냈습니다.")
-                break
+        data = s.read()
+        if data == b'R' :
+            print("아두이노가 응답 바이트를 받았다고 보냈습니다.")
+            break
 
 i = 0
 while True:
