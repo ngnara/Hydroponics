@@ -1,2 +1,3 @@
 *.bat
 RaspberryPi/myvenv
+__pycache__
