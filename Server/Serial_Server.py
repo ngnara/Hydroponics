@@ -53,11 +53,11 @@ while True:
                 jsonData = json.loads(s.readline().decode("utf-8"))
                 print(jsonData)
 
-                log = SensorLog.objects.create(
-                temp = jsonData['Temp'],
-                humid =jsonData['Humid'],
-                light = jsonData['Light'],
-                ph = jsonData['pH']
+                log = SensorLog.objects.create( \
+                    temp = jsonData['Temp'], \
+                    humid =jsonData['Humid'], \
+                    light = jsonData['Light'], \
+                    ph = jsonData['pH'] \
                 )
     except serial.SerialException:
         print(port + "포트는 실패하였습니다. 다시 검색합니다.")
