@@ -19,4 +19,5 @@ from hydro import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^ajax/status', views.ajaxStatus),
 ]

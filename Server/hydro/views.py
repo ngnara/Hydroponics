@@ -7,4 +7,6 @@ import json;
 
 def ajaxStatus(request):
     log = SensorLog.objects.all()[:1].order_by('date')
-    log.temp
+    jsonData = { "Temp" : log.temp, "Humid" : log.humid, "Light" : log.light, "pH" : log.ph }
+    jsonString = json.dumps(jsonData)
+    return HttpResponse(jsonString, content_type="application/json")
