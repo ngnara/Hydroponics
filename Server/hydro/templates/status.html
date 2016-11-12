@@ -45,12 +45,11 @@
     setInterval(function()
     { //setInterval(값,시간 600 = 1초 ) 일정 시간마다 출력
       $.ajax({url: "/ajax/status", success: function(result){
-          var obj = JSON.parse(result);
-          $("#temp").html(obj.Temp);
-          $("#humid").html(obj.Humid);
-          $("#light").html(obj.Light);
-          $("#ph").html(obj.pH);
-          $("#date").html(obj.Date);
+          $("#temp").html(result.Temp);
+          $("#humid").html(result.Humid);
+          $("#light").html(result.Light);
+          $("#ph").html(result.pH);
+          $("#date").html(result.Date);
       }});
     }, sec*600); // 600 = 1초
     </script>
