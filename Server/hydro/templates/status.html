@@ -1,0 +1,42 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" type="text/javascript"></script>
+    <style>
+      table { font-size: 50pt; text-align: right;}
+      #data{font-size:50pt;}
+    </style>
+  </head>
+  <body>
+    <table>
+      <tr>
+        <td> Temp :</td> <td id="temp"></td> <td> °C</td>
+      </tr>
+      <tr>
+        <td> Humid :</td> <td id="humid"></td> <td> %</td>
+      </tr>
+      <tr>
+        <td> Light :</td> <td id ="light"></td> <td> lx</td>
+      </tr>
+      <tr>
+        <td> pH :</td> <td id ="ph">      </td> <td> pH</td>
+      </tr>
+    </table>
+    <div id="date"> </div>
+
+    <script>
+    var sec=1; // 1초마다 출력
+    setInterval(function()
+    { //setInterval(값,시간 600 = 1초 ) 일정 시간마다 출력
+      $.ajax({url: "/ajax/status", success: function(result){
+          var obj = JSON.parse(result);
+          $("#temp").html(obj.Temp);
+          $("#humid").html(obj.Humid);
+          $("#light").html(obj.Light);
+          $("#ph").html(obj.pH);
+          $("#date").html(obj.Date);
+      }});
+    }, sec*600); // 600 = 1초
+    </script>
+  </body>
+</html>
