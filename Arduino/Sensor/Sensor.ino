@@ -132,7 +132,7 @@ void loop() {
   float ph = readpH();
 
   toJson(tmp, hum, light, ph).printTo(Serial);
-  // toJson(tmp, hum, 1000, 7.0).printTo(Serial);
+  //toJson(tmp, hum, 1000, 7.0).printTo(Serial);
   Serial.println("");
   delay(DelayInterval);
 }
