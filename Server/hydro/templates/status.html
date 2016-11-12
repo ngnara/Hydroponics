@@ -2,9 +2,10 @@
   <head>
     <meta charset="utf-8">
     <script src="https://code.jquery.com/jquery-3.1.1.min.js" type="text/javascript"></script>
+    <script src="jquery.cookie.js" type="text/javascript"></script>
     <style>
       table { font-size: 50pt; text-align: right;}
-      #data{font-size:50pt;}
+      #data { font-size:50pt; }
     </style>
   </head>
   <body>
@@ -16,7 +17,7 @@
         <td> Humid :</td> <td id="humid">0.0</td> <td> %</td>
       </tr>
       <tr>
-        <td> Light :</td> <td id ="light">1000</td> <td> lx</td>
+        <td> Light :</td> <td id ="light">0</td> <td> lx</td>
       </tr>
       <tr>
         <td> pH :</td> <td id ="ph">0.0</td> <td> pH</td>
@@ -25,10 +26,20 @@
     <div id="date"> </div>
 
     <script>
+    $.ajaxSetup({
+      beforeSend: function(xhr, settings) {
+        csrftoken = $.cookie("csrftoken");
+        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+          xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+      }
+    })
+
     var sec=15; // 1초마다 출력
+
     setInterval(function()
     { //setInterval(값,시간 600 = 1초 ) 일정 시간마다 출력
-      $.ajax({url: "ajax/status", success: function(result){
+      $.ajax({url: "/ajax/status", success: function(result){
           var obj = JSON.parse(result);
           $("#temp").html(obj.Temp);
           $("#humid").html(obj.Humid);
