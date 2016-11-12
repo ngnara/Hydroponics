@@ -10,25 +10,25 @@
   <body>
     <table>
       <tr>
-        <td> Temp :</td> <td id="temp"></td> <td> °C</td>
+        <td> Temp :</td> <td id="temp">0.0</td> <td> °C</td>
       </tr>
       <tr>
-        <td> Humid :</td> <td id="humid"></td> <td> %</td>
+        <td> Humid :</td> <td id="humid">0.0</td> <td> %</td>
       </tr>
       <tr>
-        <td> Light :</td> <td id ="light"></td> <td> lx</td>
+        <td> Light :</td> <td id ="light">1000</td> <td> lx</td>
       </tr>
       <tr>
-        <td> pH :</td> <td id ="ph">      </td> <td> pH</td>
+        <td> pH :</td> <td id ="ph">0.0</td> <td> pH</td>
       </tr>
     </table>
     <div id="date"> </div>
 
     <script>
-    var sec=1; // 1초마다 출력
+    var sec=15; // 1초마다 출력
     setInterval(function()
     { //setInterval(값,시간 600 = 1초 ) 일정 시간마다 출력
-      $.ajax({url: "/ajax/status", success: function(result){
+      $.ajax({url: "ajax/status", success: function(result){
           var obj = JSON.parse(result);
           $("#temp").html(obj.Temp);
           $("#humid").html(obj.Humid);
