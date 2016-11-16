@@ -28,14 +28,18 @@ class ACServer:
 
         data = s.read()
         if data == b'C' : print("3-Way Handshake : SYN 데이터 수신")
-        else : print("3-Way Handshake : 식별 불가 데이터")
+        else :
+            print("3-Way Handshake : 식별 불가 데이터")
+            sys.exit()
 
         s.write(b'R')
         print("3-Way Handshake : SYN+ACK 데이터 송신")
 
         data = s.read()
         if data == b'R' : print("3-Way Handshake : ACK 데이터 수신")
-        else : print("3-Way Handshake : 식별 불가 데이터")
+        else :
+            print("3-Way Handshake : 식별 불가 데이터")
+            sys.exit()
 
     def __init__(self):
         numPort = 0
