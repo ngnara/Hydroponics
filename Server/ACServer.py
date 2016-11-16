@@ -73,13 +73,14 @@ class ACServer:
 class ListenServer(threading.Thread):
 
     def run(self):
-        jsonData = json.loads(self.s.readline().decode("utf-8"))
-        print(jsonData)
+        while True:
+            jsonData = json.loads(self.s.readline().decode("utf-8"))
+            print(jsonData)
 
-        log = SensorLog.objects.create( \
-            temp = jsonData['Temp'], \
-            humid =jsonData['Humid'], \
-            light = jsonData['Light'], \
-            ph = jsonData['pH'])
+            log = SensorLog.objects.create( \
+                temp = jsonData['Temp'], \
+                humid =jsonData['Humid'], \
+                light = jsonData['Light'], \
+                ph = jsonData['pH'])
 
 server = ACServer()
