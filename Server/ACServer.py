@@ -63,15 +63,14 @@ class ACServer:
 
             except serial.SerialException:
                 if numPort <= 20 :
-                    print(port + "포트 실패, 재 검색")
+                    print(port + " 포트 실패")
                     numPort = numPort + 1
                 else :
-                    print("연결된 포트를 찾을 수 없습니다.")
+                    print("연결되어 있는 포트를 찾을 수 없습니다.")
                     exit()
 
 #수신 서버
 class ListenServer(threading.Thread):
-
     def run(self):
         while True:
             jsonData = json.loads(self.s.readline().decode("utf-8"))
