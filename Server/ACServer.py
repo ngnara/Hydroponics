@@ -49,7 +49,7 @@ class ACServer:
                 with serial.Serial(port, 9600) as self.serial:
                     s = self.serial
                     print("현재 포트 : " + s.name)
-                    handshake()
+                    self.handshake()
 
                     listen = ListenServer(s)
                     listen.start()
