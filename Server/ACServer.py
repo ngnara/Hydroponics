@@ -54,8 +54,7 @@ class ACServer:
                     listen = ListenServer(s)
                     listen.start()
                     while True:
-
-
+                        pass
 
             except serial.SerialException:
                 if i <= 20 :
