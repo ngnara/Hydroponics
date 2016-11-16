@@ -51,7 +51,7 @@ class ACServer:
                     print("현재 포트 : " + s.name)
                     self.handshake()
 
-                    listen = ListenServer(s)
+                    listen = ListenServer.s = s
                     listen.start()
                     while True:
                         pass
@@ -66,9 +66,6 @@ class ACServer:
 
 #수신 서버
 class ListenServer(threading.Thread):
-
-    def __init__(self, serial):
-        self.s = serial
 
     def run(self):
         jsonData = json.loads(self.s.readline().decode("utf-8"))
