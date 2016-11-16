@@ -42,8 +42,8 @@ class ACServer:
         while True:
             #운영체제별 포트 결정
             port = ""
-            if platform.system == "Windows": port = "COM" + str(i + 2)
-            else: port = "/dev/ttyACM" + str(i)
+            if platform.system == "Windows": port = "COM" + str(numPort + 2)
+            else: port = "/dev/ttyACM" + str(numPort)
 
             try:
                 with serial.Serial(port, 9600) as self.serial:
@@ -59,7 +59,7 @@ class ACServer:
             except serial.SerialException:
                 if i <= 20 :
                     print(port + "포트 실패, 재 검색")
-                    i = i + 1
+                    numPort = numPort + 1
                 else :
                     print("연결된 포트를 찾을 수 없습니다.")
                     exit()
