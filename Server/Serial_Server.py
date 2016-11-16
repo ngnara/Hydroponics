@@ -1,64 +1,84 @@
 import serial
 import json
 import platform
+import threading
 
-#MySQL 불러오기
+#MySQL 라이브러리 불러오기
 import pymysql
 pymysql.install_as_MySQLdb()
 
-#외부에서 장고 프레임워크 불러오기
+#장고 프레임워크 라이브러리 불러오기
 import os
 import sys
-
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "gui.settings")
 os.environ["DJANGO_SETTINGS_MODULE"] = "gui.settings"
+
 import django
 django.setup()
 
-#SensorLog 모델 불러오기
+#장고 프레임워크 SensorLog 모델 불러오기
 from hydro.models import SensorLog
 
-#핸드쉐이크
-def handshakeSerial(s):
-    while True:
+#분석 및 제어 서버(Analysis & Control Server)
+class ACServer:
+
+    #쓰리웨이 핸드쉐이크
+    def handshake(self):
+        s = self.serial
+
         data = s.read()
-        if data == b'C' :
-            print("아두이노에서 확인 바이트를 받았습니다.")
-            break
+        if data == b'C' : print("3-Way Handshake : SYN 데이터 수신")
+        else : print("3-Way Handshake : 식별 불가 데이터")
 
-    s.write(b'R')
-    print("아두이노에게 응답 바이트를 보냈습니다.")
+        s.write(b'R')
+        print("3-Way Handshake : SYN+ACK 데이터 송신")
 
-    while True:
         data = s.read()
-        if data == b'R' :
-            print("아두이노가 응답 바이트를 받았다고 보냈습니다.")
-            break
+        if data == b'R' : print("3-Way Handshake : ACK 데이터 수신")
+        else : print("3-Way Handshake : 식별 불가 데이터")
 
-i = 0
-while True:
-    #운영체제별 포트 결정
-    port = ""
-    if platform.system == "Windows":
-        port = "COM" + str(i + 2)
-    else:
-        port = "/dev/ttyACM" + str(i)
+    def __init__(self):
+        numPort = 0
+        while True:
+            #운영체제별 포트 결정
+            port = ""
+            if platform.system == "Windows": port = "COM" + str(i + 2)
+            else: port = "/dev/ttyACM" + str(i)
 
-    try:
-        with serial.Serial(port, 9600) as s:
-            print("현재 포트는" + s.name)
-            handshakeSerial(s)
+            try:
+                with serial.Serial(port, 9600) as self.serial:
+                    s = self.serial
+                    print("현재 포트 : " + s.name)
+                    handshake()
 
-            while True:
-                jsonData = json.loads(s.readline().decode("utf-8"))
-                print(jsonData)
+                    listen = ListenServer(s)
+                    listen.start()
+                    while True:
 
-                log = SensorLog.objects.create( \
-                    temp = jsonData['Temp'], \
-                    humid =jsonData['Humid'], \
-                    light = jsonData['Light'], \
-                    ph = jsonData['pH'] \
-                )
-    except serial.SerialException:
-        print(port + "포트는 실패하였습니다. 다시 검색합니다.")
-        i = i+1
+
+
+            except serial.SerialException:
+                if i <= 20 :
+                    print(port + "포트 실패, 재 검색")
+                    i = i + 1
+                else :
+                    print("연결된 포트를 찾을 수 없습니다.")
+                    exit()
+
+#수신 서버
+class ListenServer(threading.Thread):
+
+    def __init__(self, serial):
+        self.s = serial
+
+    def run(self):
+        jsonData = json.loads(self.s.readline().decode("utf-8"))
+        print(jsonData)
+
+        log = SensorLog.objects.create( \
+            temp = jsonData['Temp'], \
+            humid =jsonData['Humid'], \
+            light = jsonData['Light'], \
+            ph = jsonData['pH'])
+
+server = ACServer()
