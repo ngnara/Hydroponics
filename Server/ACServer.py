@@ -57,7 +57,7 @@ class ACServer:
                         pass
 
             except serial.SerialException:
-                if i <= 20 :
+                if numPort <= 20 :
                     print(port + "포트 실패, 재 검색")
                     numPort = numPort + 1
                 else :
