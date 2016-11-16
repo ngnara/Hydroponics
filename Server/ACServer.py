@@ -51,7 +51,8 @@ class ACServer:
                     print("현재 포트 : " + s.name)
                     self.handshake()
 
-                    listen = ListenServer.s = s
+                    listen = ListenServer()
+                    listen.s = self.serial
                     listen.start()
                     while True:
                         pass
