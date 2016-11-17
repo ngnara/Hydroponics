@@ -55,7 +55,7 @@ class ACServer:
                     print("현재 포트 : " + s.name)
                     self.handshake()
 
-                    listen = ListenServer()
+                    listen = ListenThread()
                     listen.s = self.serial
                     listen.start()
                     while True:
@@ -70,7 +70,7 @@ class ACServer:
                     exit()
 
 #수신 서버
-class ListenServer(threading.Thread):
+class ListenThread(threading.Thread):
     def run(self):
         while True:
             jsonData = json.loads(self.s.readline().decode("utf-8"))
@@ -81,5 +81,7 @@ class ListenServer(threading.Thread):
                 humid =jsonData['Humid'], \
                 light = jsonData['Light'], \
                 ph = jsonData['pH'])
+
+class ControlThread
 
 server = ACServer()
