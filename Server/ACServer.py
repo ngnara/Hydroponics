@@ -82,6 +82,8 @@ class ListenThread(threading.Thread):
                 light = jsonData['Light'], \
                 ph = jsonData['pH'])
 
-class ControlThread
+class ControlThread(threading.Thread):
+    def run(self):
+        pass
 
 server = ACServer()
