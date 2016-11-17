@@ -8,7 +8,12 @@ class SensorLog(models.Model):
     humid = models.FloatField()
     light = models.IntegerField()
     ph = models.FloatField()
-    
+
     def __str__(self):
         return self.id
-   
+
+class SettingsLog(models.Model):
+    id = models.AutoField(primary_key=True)
+    interval = models.IntegerField()
+    fan_in_speed = models.IntegerField()
+    fan_out_speed = models.IntegerField()
